@@ -9,8 +9,8 @@ export const App = () => {
   return (
     <div className='h-screen flex justify-center items-center bg-black p-4'>
       <Routes>
-        <Route path='/card' element={<Card/>} />
-        <Route path='/' element={<SignIn/>} />
+        <Route path='/' element={<Card/>} />
+        <Route path='/signIn' element={<SignIn/>} />
         <Route path='/signUp' element={<SignUp/>} />
         <Route path='/createCard' element={<CreateCard/>} />
       </Routes>
