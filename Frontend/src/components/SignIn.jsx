@@ -2,6 +2,6 @@ import React from 'react'
 
 export const SignIn = () => {
   return (
-    <div>SighIn</div>
+    <div className='text-white border'>SighIn</div>
   )
 }
