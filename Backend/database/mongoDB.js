@@ -1,9 +1,11 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
-export const databaseConnection = () => {
-    mongoose.connection.on("connection", () => {
-        console.log("Connected to database.");
+const databaseConnection = () => {
+    mongoose.connection.on("connected", () => {
+        console.log("Connected to database.")
     })
 
     mongoose.connect(process.env.MONGODB_URI);
 }
+
+export default databaseConnection
