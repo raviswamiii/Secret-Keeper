@@ -1,14 +1,41 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const SignUp = () => {
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
-  const onSubmitHandler = (event) => {
+  const resetForm = () => {
+    setName("");
+    setEmail("");
+    setPassword("");
+  };
+
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log("Form submitted.");
+
+    try {
+      const userData = { name, email, password };
+
+      const response = await axios.post(
+        backendURL + "/user/register",
+        userData
+      );
+
+      if (response.data.success) {
+        localStorage.setItem("token", response.data.token);
+        resetForm();
+        navigate("/");
+      } else {
+        console.log(response.data.message);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   return (
@@ -26,16 +53,22 @@ export const SignUp = () => {
             className="border px-4 py-2 rounded-lg outline-none"
             type="text"
             placeholder="Enter your name..."
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
           <input
             className="border px-4 py-2 rounded-lg outline-none"
             type="email"
             placeholder="Enter your email..."
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             className="border px-4 py-2 rounded-lg outline-none"
             type="password"
             placeholder="Enter your password..."
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <button
             type="submit"
