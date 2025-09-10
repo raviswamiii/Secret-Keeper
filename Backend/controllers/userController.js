@@ -11,7 +11,7 @@ const userRegister = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    const exists = await userModel.findOne({email});
+    const exists = await userModel.findOne({ email });
     if (exists)
       return res
         .status(400)
@@ -44,6 +44,7 @@ const userRegister = async (req, res) => {
     res
       .status(201)
       .json({ success: true, message: "User registered successfully.", token });
+      
   } catch (error) {
     console.error("Registration error:", error);
     return res.status(500).json({ success: false, message: "Server error." });
