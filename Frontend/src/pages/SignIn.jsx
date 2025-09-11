@@ -21,7 +21,7 @@ export const SignIn = () => {
       const userData = {email, password};
 
       const response = await axios.post(
-        backendURL + "/user/userSignIn",
+        backendURL + "/user/signIn",
         userData
       );
 

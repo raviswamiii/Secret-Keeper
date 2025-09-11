@@ -31,7 +31,7 @@ const userRegister = async (req, res) => {
     if (!validator.isStrongPassword(password, { minLength: 8 }))
       return res.status(400).json({
         success: false,
-        message: "Password must be 8 characters long.",
+        message: "Password must be at least 8 characters long and include numbers, uppercase, lowercase, and symbols.",
       });
 
     const salt = await bcrypt.genSalt(10);
