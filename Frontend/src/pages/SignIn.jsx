@@ -2,38 +2,36 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const backendURL = import.meta.env.VITE_BACKEND_URL
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   const resetForm = () => {
     setEmail("");
     setPassword("");
-  }
+  };
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
     try {
-      const userData = {email, password};
+      const userData = { email, password };
 
-      const response = await axios.post(
-        backendURL + "/user/signIn",
-        userData
-      );
+      const response = await axios.post(backendURL + "/user/signIn", userData);
 
       if (response.data.success) {
         localStorage.setItem("token", response.data.token);
         navigate("/");
         resetForm();
       } else {
-        console.log(response.data.message);
+        toast.error(response.data.message);
       }
     } catch (error) {
-      console.error(error);
+      toast.error(error.response?.data?.message || "Something went wrong.");
     }
   };
   return (

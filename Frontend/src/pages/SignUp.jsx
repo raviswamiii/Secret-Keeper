@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {toast} from "react-toastify";
 
 export const SignUp = () => {
   const [name, setName] = useState("");
@@ -31,10 +32,10 @@ export const SignUp = () => {
         navigate("/");
         resetForm();
       } else {
-        console.log(response.data.message);
+        toast.error(response.data.message);
       }
     } catch (error) {
-      console.error(error.message);
+      toast.error(error.response?.data?.message || "Something went wrong.");
     }
   };
   return (
