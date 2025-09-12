@@ -1,12 +1,10 @@
 import React from "react";
-import { BiLogOut } from "react-icons/bi";
+import { Logout } from "./Logout";
 
 export const Home = () => {
   return (
     <div className="h-screen bg-black">
-      <div className="bg-gradient-to-r from-yellow-200 via-yellow-500 to-yellow-800 rounded-full absolute right-3 top-3 p-1">
-        <BiLogOut className="text-2xl rotate-180 rounded-full" />
-      </div>
+      <Logout />
       <div className="flex flex-col justify-center items-center gap-1 h-full">
         <p className="bg-gradient-to-r from-yellow-200 via-yellow-500 to-yellow-800 bg-clip-text text-transparent">
           You do not have any card.
