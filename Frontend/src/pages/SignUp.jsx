@@ -28,7 +28,7 @@ export const SignUp = () => {
       );
 
       if (response.data.success) {
-        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("accessToken", response.data.accessToken);
         navigate("/");
         resetForm();
       } else {

@@ -24,7 +24,7 @@ export const SignIn = () => {
       const response = await axios.post(backendURL + "/user/signIn", userData);
 
       if (response.data.success) {
-        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("accessToken", response.data.accessToken);
         navigate("/");
         resetForm();
       } else {

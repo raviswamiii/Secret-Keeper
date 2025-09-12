@@ -4,7 +4,7 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 
 const createAccessToken = (id) => {
-  return jwt.sign({ id }, process.env.ACCESS_SECRET, { expiresIn: "15m" });
+  return jwt.sign({ id }, process.env.JWT_ACCESS_SECRET, { expiresIn: "15m" });
 };
 
 const createRefreshToken = (id) => {
@@ -144,8 +144,8 @@ const logout = async (req, res) => {
 
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      secure: true,
-      sameSite: "Strict",
+      secure: false,
+      sameSite: "Lax",
     });
 
     return res.json({ success: true, message: "Logged out" });
