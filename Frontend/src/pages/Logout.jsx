@@ -9,20 +9,20 @@ export const Logout = () => {
 
   const handleLogout = async () => {
     try {
-        const response = await axios.post(
-      backendURL + "/user/logout",
-      {},
-      { withCredentials: true } // so backend can clear cookie
-    );
-    
-    if (response.data.success) {
+      const response = await axios.post(
+        backendURL + "/user/logout",
+        {},
+        { withCredentials: true } // so backend can clear cookie
+      );
+
+      if (response.data.success) {
         localStorage.removeItem("accessToken");
         navigate("/signIn");
-    } else {
-        toast.error(response.data.message)
-    }
+      } else {
+        toast.error(response.data.message);
+      }
     } catch (error) {
-        toast.error(error.response?.data?.message || "Something went wrong.")
+      toast.error(error.response?.data?.message || "Something went wrong.");
     }
   };
 
