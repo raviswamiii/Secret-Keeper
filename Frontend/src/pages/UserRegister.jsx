@@ -19,11 +19,11 @@ export const UserRegister = () => {
 
       const response = await axios.post(
         backendURL + "/user/register",
-        userData
+        userData, {withCredentials: true}
       );
 
       if (response.data.success) {
-        localStorage.getItem("accessToken");
+        localStorage.setItem("accessToken", response.data.accessToken);
         navigate("/");
       }
     } catch (error) {
@@ -58,14 +58,14 @@ export const UserRegister = () => {
           <input
             className="outline-none border border-white p-3 rounded-lg"
             type="email"
-            placeholder="Enter your name..."
+            placeholder="Enter your email..."
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
           <input
             className="outline-none border border-white p-3 rounded-lg"
             type="password"
-            placeholder="Enter your name..."
+            placeholder="Enter your password..."
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
@@ -77,7 +77,7 @@ export const UserRegister = () => {
           </button>
         </form>
       </div>
-      <p className="text-red-600 text-sm mt-1">{error}</p>
+      <p className="text-red-600 text-sm mt-1 w-75 text-center">{error}</p>
     </div>
   );
 };

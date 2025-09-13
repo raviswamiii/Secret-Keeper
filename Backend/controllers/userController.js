@@ -32,7 +32,7 @@ const userRegister = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Please enter a valid email." });
 
-    if (!validator.isStrongPassword(password))
+    if (!validator.isStrongPassword(password, {minLength: 8}))
       return res
         .status(400)
         .json({
@@ -50,11 +50,13 @@ const userRegister = async (req, res) => {
       password: hashedPassword,
     });
 
+    const user = await newUser.save();
+
     const accessToken = createAccessToken(user._id);
     const refreshToken = createRefreshToken(user._id);
 
     user.refreshToken = refreshToken;
-    const user = await newUser.save();
+    await user.save();
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
@@ -71,9 +73,9 @@ const userRegister = async (req, res) => {
         accessToken,
       });
   } catch (error) {
-    console.log("Registration error:", error);
+    console.log("Registration error:", error.message);
     return res.status(500).json({ success: false, message: "Server error." });
   }
 };
 
-export default userRegister;
+export default {userRegister};
