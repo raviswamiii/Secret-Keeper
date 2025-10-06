@@ -35,8 +35,8 @@ const signUp = async (req, res) => {
           "Password must be 8 character's long including uppercase, lowercase, number and symbol.",
       });
 
-    const salt = bcrypt.genSalt(10);
-    const hashedPassword = bcrypt.hash(password, salt);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = await userModel({
       name,

@@ -56,7 +56,7 @@ export const SignIn = () => {
         </Link>
         if you're new.
       </p>
-      <p>{error}</p>
+      <p className="text-red-500">{error}</p>
     </div>
   );
 };

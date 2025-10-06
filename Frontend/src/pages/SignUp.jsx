@@ -6,7 +6,7 @@ export const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState();
+  const [error, setError] = useState("");
   const backendURL = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
 
@@ -32,7 +32,7 @@ export const SignUp = () => {
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">
-      <form onSubmit={onSubmitHandler} className="flex flex-col" action="">
+      <form onSubmit={onSubmitHandler} className="flex flex-col">
         <input
           className="outline-none border"
           type="text"
@@ -43,14 +43,14 @@ export const SignUp = () => {
         <input
           className="outline-none border"
           type="email"
-          placeholder="Name..."
+          placeholder="Email..."
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           className="outline-none border"
           type="password"
-          placeholder="Name..."
+          placeholder="Password..."
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -64,7 +64,7 @@ export const SignUp = () => {
         </Link>
         if you already have an account.
       </p>
-      <p>{error}</p>
+      <p className="text-red-500">{error}</p>
     </div>
   );
 };
