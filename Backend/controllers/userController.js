@@ -98,12 +98,12 @@ const logout = async (req, res) => {
       res.status(400).json({ success: false, message: "Token not found." });
     res.clearCookie("token");
     await blacklistTokenModel.create({ token });
-    res
+    return res
       .status(200)
       .json({ success: true, message: "Logged out successfully." });
   } catch (error) {
     console.log("Logout error:", error.message);
-    res.status(500).json({ success: false, message: "Server error." });
+    return res.status(500).json({ success: false, message: "Server error." });
   }
 };
 
