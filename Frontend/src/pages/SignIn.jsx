@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 export const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState();
+  const [error, setError] = useState("");
   const backendURL = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
 
@@ -22,7 +22,7 @@ export const SignIn = () => {
         localStorage.setItem("token", response.data.token);
         navigate("/home");
       } else {
-        console.log(response.data.message);
+        setError(response.data.message);
       }
     } catch (error) {
       setError(error.response?.data?.message || "Something went wrong.");
@@ -35,14 +35,14 @@ export const SignIn = () => {
         <input
           className="outline-none border"
           type="email"
-          placeholder="Name..."
+          placeholder="Email..."
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           className="outline-none border"
           type="password"
-          placeholder="Name..."
+          placeholder="password..."
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
