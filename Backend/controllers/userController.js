@@ -12,44 +12,47 @@ const signUp = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    if (!name || !email || !password)
+    if (!name || !email || !password) {
       return res
         .status(400)
         .json({ success: false, message: "All fields are required." });
+    }
 
     const exists = await userModel.findOne({ email });
-
-    if (exists)
+    if (exists) {
       return res
-        .status(400)
+        .status(409)
         .json({ success: false, message: "User already exists." });
+    }
 
-    if (!validator.isEmail(email))
+    if (!validator.isEmail(email)) {
       return res
         .status(400)
-        .json({ success: false, message: "Please enter valid email." });
+        .json({ success: false, message: "Please enter a valid email." });
+    }
 
-    if (!validator.isStrongPassword(password))
+    if (!validator.isStrongPassword(password)) {
       return res.status(400).json({
         success: false,
         message:
-          "Password must be 8 character's long including uppercase, lowercase, number and symbol.",
+          "Password must be at least 8 characters long and include uppercase, lowercase, number, and symbol.",
       });
+    }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = await userModel({
+    const newUser = new userModel({
       name,
       email,
       password: hashedPassword,
     });
 
-    const user = newUser.save();
+    const user = await newUser.save();
     const token = createToken(user._id);
 
     return res
-      .status(200)
+      .status(201)
       .json({ success: true, message: "User registered successfully.", token });
   } catch (error) {
     console.error("SignUp error:", error.message);
@@ -61,24 +64,25 @@ const signIn = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password)
+    if (!email || !password) {
       return res
         .status(400)
         .json({ success: false, message: "All fields are required." });
+    }
 
     const user = await userModel.findOne({ email });
-
-    if (!user)
+    if (!user) {
       return res
-        .status(400)
+        .status(401)
         .json({ success: false, message: "Invalid credentials." });
+    }
 
     const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch)
+    if (!isMatch) {
       return res
-        .status(400)
+        .status(401)
         .json({ success: false, message: "Invalid credentials." });
+    }
 
     const token = createToken(user._id);
 
@@ -94,15 +98,20 @@ const signIn = async (req, res) => {
 const logout = async (req, res) => {
   try {
     const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
-    if (!token)
-      res.status(400).json({ success: false, message: "Token not found." });
-    res.clearCookie("token");
+    if (!token) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Token not found." });
+    }
+
     await blacklistTokenModel.create({ token });
+    res.clearCookie("token");
+
     return res
       .status(200)
       .json({ success: true, message: "Logged out successfully." });
   } catch (error) {
-    console.log("Logout error:", error.message);
+    console.error("Logout error:", error.message);
     return res.status(500).json({ success: false, message: "Server error." });
   }
 };
