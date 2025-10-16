@@ -31,7 +31,7 @@ export const Logout = () => {
     }
   };
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div>
       <button
         onClick={onLogoutHandler}
         className="bg-red-500 p-2 w-[20vw] text-center"
